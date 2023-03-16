@@ -11,7 +11,7 @@ $(document).ready(function(){
         success: function(data){
           if(data.status == "success"){
             localStorage.setItem("userId", data.userId);
-            window.location.href = "profile.php";
+            window.location.href = "../profile.html";
           }
           else{
             $("#error-message").html(data.message);

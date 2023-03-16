@@ -7,13 +7,13 @@ $(function() {
 
       // submit the form data using jQuery Ajax
       $.ajax({
-        url: 'save_registration.php',
+        url: '../php/register.php',
         type: 'post',
         data: formData,
         success: function(response) {
           console.log(response);
           alert('Registration successful!');
-          window.location.href = 'login.html'; // redirect to the login page
+          window.location.href = '../login.html'; // redirect to the login page
         },
         error: function(xhr, status, error) {
           console.log(xhr.responseText);
@@ -22,3 +22,7 @@ $(function() {
       });
     });
   });
+
+  function gotoLogin(){
+    window.location.href = '../login.html'; 
+  }

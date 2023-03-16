@@ -3,7 +3,10 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "mydb";
+$dbname = "profiler";
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
