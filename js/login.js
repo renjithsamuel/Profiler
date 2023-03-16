@@ -1,25 +1,33 @@
-$(document).ready(function(){
-    $("#login-form").submit(function(event){
-      event.preventDefault();
-      var username = $("#username").val();
-      var password = $("#password").val();
-      $.ajax({
-        url: "login.php",
-        method: "POST",
-        data: {username: username, password: password},
-        dataType: "json",
-        success: function(data){
-          if(data.status == "success"){
-            localStorage.setItem("userId", data.userId);
-            window.location.href = "../profile.html";
-          }
-          else{
-            $("#error-message").html(data.message);
-          }
-        },
-        error: function(){
-          $("#error-message").html("Error occurred while processing request.");
-        }
-      });
-    });
+// Get the form data
+$(document).ready(function() {
+  $('#smtbtn').click(function(e) {
+    e.preventDefault(); 
+var aname = $('#username').val();
+// var aemail = $('#email').val();
+var apassword = $('#password').val();
+
+// Send the AJAX request
+$.ajax({
+  url: 'http://localhost/sharmi/php/login.php',
+  method: 'POST',
+  data:{name:aname,password:apassword},
+  success: function(response) {
+      // Handle the response from the server
+      if(response == "No user Found"){
+        alert("No user Found");
+        return;
+      }
+      else{
+      console.log(response);
+      localStorage.setItem('userID',response);}
+  },
+  error: function(error) {
+      // Handle any errors that occur
+      console.log(error);
+  }
+});
+
+
+
   });
+});

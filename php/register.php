@@ -1,31 +1,47 @@
 <?php
-// connect to the database
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "profiler";
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
+session_start();
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
+header('Access-Control-Allow-Origin: *');
+
+header('Access-Control-Allow-Methods: GET, POST');
+
+header("Access-Control-Allow-Headers: X-Requested-With");
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
 }
 
-// retrieve the form data
-$name = $_POST['name'];
-$email = $_POST['email'];
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT); // hash the password
 
-// insert the data into the database
-$sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
+$aname = $_POST['name'];
+$aemail = $_POST['email'];
+$apassword = $_POST['password'];
 
-if (mysqli_query($conn, $sql)) {
-  echo "Registration successful!";
+// Create record
+$sql = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+$sql->bind_param("sss", $aname, $aemail, $apassword);
+
+
+
+
+if ($sql->execute() === TRUE) {
+  $last_id = $conn->insert_id;
+  echo $last_id;
+
+  // Add the last inserted ID to the browser local storage
+  // echo "$last_id";
+
 } else {
-  echo "Registration failed: " . mysqli_error($conn);
-}
+  echo "Error inserting into table : " . $conn->error;
+};
 
-mysqli_close($conn);
+$sql->close();
+$conn->close();
 ?>
+
