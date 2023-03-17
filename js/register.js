@@ -14,9 +14,10 @@ $.ajax({
     success: function(response) {
         // Handle the response from the server
 
-        // console.log(response);
-        localStorage.setItem('userID' , response);
-        console.log(localStorage.getItem('last_id'));
+        console.log(response);
+        location.href = './login.html';
+        // localStorage.setItem('userID' , response);
+        // console.log(localStorage.getItem('last_id'));
     },
     error: function(error) {
         // Handle any errors that occur

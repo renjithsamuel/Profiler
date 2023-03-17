@@ -1,15 +1,28 @@
+let alast_id = localStorage.getItem('userID');
 $(document).ready(function() {
-    // Retrieve user data from backend
-    $.ajax({
-      url: 'profile_data.php',
-      type: 'GET',
-      dataType: 'json',
-      success: function(data) {
+  
+  
+  // Retrieve user data from backend
+  $.ajax({
+    url: 'http://localhost/sharmi/php/profile_get.php',
+    type: 'POST',
+    dataType: 'json',
+    data: {last_id :alast_id},
+    success: function(data) {
+        // console.log(alast_id);
+        // console.log(data.name);
+        // var data = JSON.parse(response);
         // Populate input fields with user data
-        $('#name').val(data.name);
-        $('#email').val(data.email);
-        $('#phone').val(data.phone);
-        $('#address').val(data.address);
+        // console.log(data);
+        if(data.phone!=null && data.address!=null){
+          $('#name').val(data.name);
+          $('#email').val(data.email);
+          $('#phone').val(data.phone);
+          $('#address').val(data.address);}
+          else{
+            $('#name').val(data.name);
+            $('#email').val(data.email);
+          }
       },
       error: function(xhr, status, error) {
         // Display error message
@@ -27,22 +40,26 @@ $(document).ready(function() {
       $('#edit').prop('disabled', true);
       $('#save').prop('disabled', false);
     });
-  
+    
+    // logout
+    $('#logout').click(function(){
+      location.href = './login.html';
+    });
+
+
     // Save changes to backend
     $('#save').click(function() {
       // Retrieve edited values
-      var name = $('#name').val();
-      var email = $('#email').val();
-      var phone = $('#phone').val();
-      var address = $('#address').val();
-  
+      var aname = $('#name').val();
+      var aemail = $('#email').val();
+      var aphone = $('#phone').val();
+      var aaddress = $('#address').val();
       // Send edited values to backend
       $.ajax({
-        url: 'profile_save.php',
+        url: 'http://localhost/sharmi/php/profile_post.php',
         type: 'POST',
-        data: {name: name, email: email, phone: phone, address: address},
+        data: {name: aname, email: aemail, phone: aphone, address: aaddress,last_id :alast_id},
         success: function(data) {
-          // Disable input fields and Save button, enable Edit button
           $('#name').prop('disabled', true);
           $('#email').prop('disabled', true);
           $('#phone').prop('disabled', true);

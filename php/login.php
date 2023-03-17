@@ -12,16 +12,16 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-$aname = $_POST['name'];
+$aemail = $_POST['email'];
 $apassword = $_POST['password'];
 // Create record
-$sql = "SELECT * FROM users WHERE name='$aname' AND password='$apassword'";
+$sql = "SELECT * FROM users WHERE email='$aemail' AND password='$apassword'";
 $result = mysqli_query($conn, $sql);
-if($result){
+if(mysqli_num_rows($result) > 0){
 	$row = mysqli_fetch_assoc($result);
 	$name = $row["name"]; 
 	$user_id =  $row['id'];
-	echo $user_id;
+		echo json_encode(array('userid'=>$user_id));
 	}
 	else {
 		echo "No user Found";
